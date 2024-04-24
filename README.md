@@ -55,6 +55,9 @@ Prerequisite:</br>
 
 1. Install Git
 
+- Need to **connect your remote repo** of project folder in git-server.</br>
+- Using **PollSCM** in jenkins server that is used for **Continuous Integration** using git-server. If any chances made in the project file that will automatically build the job in jenkins server is called comtinuous integration.
+
 <h3>Jenkins-server:</h3> 
 Prerequisites:</br>
 
