@@ -100,23 +100,12 @@ Prerequisite:</br>
 
 1. Install Docker 
 
-Add User in Docker Server
-Set a password for the user
-
-Adding the user to 'docker' group allows the user to run any docker command without using 'sudo'.
-
-
-<h3>Ansible-server:</h3>
-Prerequisites:</br>
-The commands are in the above file called (Ansible-server.rtf)</br> 
-1. Install Ansible 
-2. Install Docker.
-
 Add User(ansadmin) and Set a password for the user - 
 
 To grant root privileges to the **'ansadmin'** user, execute the following command: **sudo usermod -aG sudo ansadmin**</br>
-command: **visudo**
-
+command: **visudo** </br>
+Go to the  file and paste the below-mentioned line as it is:</br>
+**ansadmin ALL=(ALL)       NOPASSWD: ALL**
 
 ![Screenshot (861)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/31060902-7bdb-42e9-829d-f561cfc484ba)
 
@@ -129,9 +118,63 @@ command: **vi /etc/ssh/sshd_config** </br>
 save and close the file.
 command:**service sshd reload**
 
-Add Ansible Server in Jenkins
+Adding the user to 'docker' group allows the user to run any docker command without using 'sudo'.
 
-Create Dockerfile
+
+<h3>Ansible-server:</h3>
+Prerequisites:</br>
+The commands are in the above file called (Ansible-server.rtf)</br> 
+1. Install Ansible 
+2. Install Docker.
+
+Add User(ansadmin) and Set a password for the user - 
+
+Once we have created the user, it’s time to grant sudo access to it.</br>
+command: **visudo** </br>
+Go to the  file and paste the below-mentioned line as it is:</br>
+**ansadmin ALL=(ALL)       NOPASSWD: ALL**
+
+![Screenshot (861)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/31060902-7bdb-42e9-829d-f561cfc484ba)
+
+- From Root user: Enable Password-Based Authentication
+
+command: **vi /etc/ssh/sshd_config** </br>
+**Click -> i** to modify the file and search for **passwordAuthentication - > yes**
+![Screenshot (859)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/343a190a-336f-4451-bf0b-82b510a80ec3)
+
+save and close the file.
+command:**service sshd reload**
+
+- Now, log in as an ansadmin user:
+**su - ansadmin**
+Use ssh-keygen command to generate key:
+**ssh-keygen**
+  
+- Setting Ansible Inventory:</br>
+The default location for the inventory resides in /etc/ansible/hosts.</br>
+Go inside file -> **vi /etc/ansible/hosts**.</br>
+For **dockerhost -> private_ip_of_docker-server   ansible -> private_ip_of_ansible-server**
+
+![Screenshot (923)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/09f3b976-3ca6-444f-9e99-df8f5d9811ed)
+
+ - Test our Ansible Inventory:
+   using **ansible all -m ping**
+
+![Screenshot (830)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/c07dc837-9640-4809-85d9-0709f03ebb83)
+
+
+Integrating Ansible with Jenkins:
+
+**Configure System ->** find **Publish over SSH** **-> SSH Servers ->**click on the **Add button**. </br>
+Enter **Name -> ansible**, **Hostname ->** pritvate_ip_ansible-server, **username** -> Enter created username of ansible-server **'ansadmin'**, **Click -> Advanced ->checkin password Authentication -> password ->** Enter created password of ansible-server **-> Apply & Save**.
+
+![Screenshot (934)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/4e1b883e-a83b-48c5-9e23-316746196f05)
+
+![Screenshot (935)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/8aef55f3-a65d-49b8-ab0d-d78c0a3673c5)
+
+![Screenshot (936)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/422e0acf-1095-4f92-9eae-b108a1f88882)
+
+Create Dockerfile:
 
 
 
