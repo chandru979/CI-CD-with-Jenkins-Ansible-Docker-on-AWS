@@ -4,12 +4,12 @@
 
 **Tools**</br>
 
-1.**Git** - Local version control system</br>
-2.**GitHub** - Distributed version control system</br>
-3.**Jenkins** - Continuous integration tool</br>
-4.**Maven** - Build tool</br>
-5.**Ansible** - Configuration management and deployment tool</br>
-6.**Docker** - Containerisation</br>
+1. **Git** - Local version control system</br>
+2. **GitHub** - Distributed version control system</br>
+3. **Jenkins** - Continuous integration tool</br>
+4. **Maven** - Build tool</br>
+5. **Ansible** - Configuration management and deployment tool</br>
+6. **Docker** - Containerisation</br>
 Setup all these environments on AWS</br>
 
 <h4>Resources to setup Devops CI/CD pipeline</h4></br>
@@ -27,7 +27,7 @@ Setup all these environments on AWS</br>
 
 <h3>Create AWS instances</h3>
 
-First we need to launch Four  instances on AWS for one for Git,one for Jenkins, one for Ansible and one for Docker separately.
+First need to launch Four instances on AWS [Ubuntu OS for Git, Amazon Linux OS for Jenkins, Amazon Linux OS for Ansible and Amazon Linux OS for Docker] separately.
 
 ![Screenshot (892)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/8a61e6a6-87a7-4996-b9a0-195d23c28b1b)
 
@@ -35,29 +35,52 @@ First we need to launch Four  instances on AWS for one for Git,one for Jenkins, 
 
 ![Screenshot (885)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/cc941220-83c7-4d9e-9fe4-ca9f253b520e)
 
+create Security group for all instance and open port of 8080 for jenkins-server, 8082 for docker-server(tomcat)
 ![Screenshot (891)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/113cfb09-afdd-43b4-aa16-48f89f234e86)
 
 ![Screenshot (898)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/873bd5d7-7d33-4eb5-a03c-d05921a87c47)
 
+<h3>Connect Instances using SSH client in Mobaxterm</h3>
 
-Git-server
-Prerequisites:
-1.Git
+![Screenshot (899)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/dd393679-07db-4ba5-96cd-3f680e8bbfc1)
 
-Jenkins-server: 
-
-Prerequisites:
-
- 1.Install Jenkins,
-2.Java, 
-3 Maven
-4.Git
-configure it in jenkins global tool configuration
+GO to **Click -> SSH** and then **Remote host ->** Paste your ssh, **Click-> Advanced SSH settings -> Use private key ->**paste PEM key for openSSH.  
+![Screenshot (919)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/df53d44c-50a3-4fa6-9461-fb12d9f6b5bc)
 
 
-Docker-server:
-Prerequisites:
-1.Install Docker 
+<h3>Git-server:</h3>
+Prerequisite:</br>
+
+1. Install Git
+
+<h3>Jenkins-server:</h3> 
+Prerequisites:</br>
+
+1. Install Jenkins
+2. Install Java
+3. Install Maven
+4. Install Git
+5. configure it in jenkins global tool configuration
+6. Install required Plugins in jenkins
+
+Afer Instllation of JDK, Maven add directories to Jenkins. </br> 
+Go to **Manage jenkins -> Tools** (Add JDK and Add Maven Path directory)</br>
+![Screenshot (908)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/14f13c5c-9da5-4ef8-8f6e-7dc9e2131a26)
+
+![Screenshot (909)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/6136d4df-4ea6-410f-b4f5-3631218d1f5f)
+
+![Screenshot (910)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/f5975d63-2708-48dc-a65e-1eadf9b6ae40)
+
+Next install plugins </br>
+Go to **Manage Jenkins -> Plugins -> Select Available Plugins ->** search (Maven Integration, GitHub, Publish over SSH) -> Click on **'Install without restart'**
+
+![Screenshot (914)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/fa367e7e-391d-421b-beba-d42bce0e2700)
+
+
+<h3>Docker-server:</h3>
+Prerequisite:</br>
+
+1. Install Docker 
 
 Add User in Docker Server
 Set a password for the user
@@ -65,11 +88,10 @@ Set a password for the user
 Adding the user to 'docker' group allows the user to run any docker command without using 'sudo'.
 
 
-Ansible-server:
+<h3>Ansible-server:</h3>
+Prerequisites:</br>
 
-Prerequisites:
-
-1.Install Ansible 
+1. Install Ansible 
 2. Install Docker.
 
 Add User and  Set a password for the user - The user you create here will be used by Jenkins to SSH into the Ansible server for executing commands related to container creation.
