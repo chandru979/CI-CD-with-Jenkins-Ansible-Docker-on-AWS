@@ -100,9 +100,9 @@ Prerequisite:</br>
 
 1. Install Docker 
 
-Add User(ansadmin) and Set a password for the user - 
+Add User(ansadmin) and Set a password for the user </br>
 
-To grant root privileges to the **'ansadmin'** user, execute the following command: **sudo usermod -aG sudo ansadmin**</br>
+Once we have created the user, it’s time to grant sudo access to it.</br>
 command: **visudo** </br>
 Go to the  file and paste the below-mentioned line as it is:</br>
 **ansadmin ALL=(ALL)       NOPASSWD: ALL**
@@ -118,7 +118,11 @@ command: **vi /etc/ssh/sshd_config** </br>
 save and close the file.
 command:**service sshd reload**
 
-Adding the user to 'docker' group allows the user to run any docker command without using 'sudo'.
+Adding the user to 'docker' group allows the user to run any docker command without using 'sudo'. </br>
+
+By adding the user to the 'docker' group, you allow them to execute Docker commands without requiring root privileges.</br>
+
+This means you won't need to use 'sudo' each time with Docker commands.</br>
 
 
 <h3>Ansible-server:</h3>
@@ -160,7 +164,7 @@ For **dockerhost -> private_ip_of_docker-server   ansible -> private_ip_of_ansib
  - Test our Ansible Inventory:
    using **ansible all -m ping**
 
-![Screenshot (830)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/c07dc837-9640-4809-85d9-0709f03ebb83)
+![2](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/1ea2ac77-c8f3-4999-8667-843e0f3b9830)
 
 
 Integrating Ansible with Jenkins:
@@ -174,20 +178,61 @@ Enter **Name -> ansible**, **Hostname ->** pritvate_ip_ansible-server, **usernam
 
 ![Screenshot (936)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/422e0acf-1095-4f92-9eae-b108a1f88882)
 
-Create Dockerfile:
+
+- Goal is to send the war file to the specified directory to your Ansible server:
+  Create directory
+**sudo su
+mkdir /opt/docker
+chown ansadmin:ansadmin /opt/docker -R**
+
+/opt/docker -> will be used as our workspace, where Jenkins will upload the artifacts to Ansible Server.
+
+<h4**>Creating Dockerfile and Ansible Playbook:** (Files are in the above) </br></h4>
+
+To create a Docker Image with the webapp.war file, first, we will create a DockerFile.</br>
+
+- command to create dockerfile: **vi dockerfile** </br>
+With the help of this Dockerfile, we will create a Docker container
+
+We are creating a Ansible Playbook, which does two tasks for us:
+
+- command to create yaml file: **vi filename.yml or vi filename.yaml** </br>
+
+![1](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/59e6d02d-0068-4587-98d2-1674f0f04c21)
+
+Pull Tomcat’s latest version and build an image using webapp.war file.</br>
+Run the built image on the desired host.</br>
+
+**Pushing Docker Image to Docker Hub Using Ansible:**
+- create one new Ansible Playbook which will build and push the Docker image to your Docker Hub account.
+  **vi regapp.yaml**
+
+command: **docker login** for connect DockerHub account.
+
+Go to your Docker Hub account and see if the image was pushed successfully
+
+![Screenshot (948)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/d382c8b3-93c6-4300-8b7c-ce82c3610cb6)
+
+- create another new Ansible Playbook, we are going to pull the Docker image from Docker Hub Account and create a container out of it.
+  **vi deploy_regapp.yaml**
 
 
+<h3> Jenkins Jobs to Deploy Docker Container Using Ansible </h3></br>
 
-After installing Docker, add the 'ansadmin' user to the 'docker' group.
+![Screenshot (944)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/b539077d-d9e5-4ae5-8feb-346380be6cad)
 
-By adding the user to the 'docker' group, you allow them to execute Docker commands without requiring root privileges.
+![Screenshot (945)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/02df3b45-8ac7-48da-b75e-52bc3b2145f5)
 
-This means you won't need to use 'sudo' each time with Docker commands.
+![Screenshot (949)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/12a076d4-75ac-45b5-91a4-93f5fa07e483)
 
-you are logged in as the root user.we need to add the target servers to the /etc/ansible/hosts file.
+- To access the web application using Docker **public_ip_address** with (enabled port for docker and tomcat server)
 
-then switch to 'ansadmin' user:
+![Screenshot (951)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/29c277ee-69d4-447e-b47b-0129623d709d)
 
-log in to Docker Hub:   using command -->docker login
+![Screenshot (952)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/3cd093fc-78e6-4a47-83e6-2f1a68f8a201)
 
-By executing the above command, you will successfully log in to your Docker Hub account. Now your Ansible server is configured to access Docker Hub for uploading Docker images.
+![Screenshot (954)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/63aac8ae-a38f-4a70-b8f3-03366dd81a50)
+
+![Screenshot (953)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/a30498d2-861b-426f-ac11-82e327aacf9d)
+
+
