@@ -108,17 +108,26 @@ Adding the user to 'docker' group allows the user to run any docker command with
 
 <h3>Ansible-server:</h3>
 Prerequisites:</br>
-
+The commands are in the above file called (Ansible-server.rtf)</br> 
 1. Install Ansible 
 2. Install Docker.
 
-Add User and  Set a password for the user - The user you create here will be used by Jenkins to SSH into the Ansible server for executing commands related to container creation.
+Add User(ansadmin) and Set a password for the user - 
 
-Root user: Enable Password-Based Authentication
+To grant root privileges to the **'ansadmin'** user, execute the following command: **sudo usermod -aG sudo ansadmin**</br>
+command: **visudo**
 
-vi /etc/ssh/sshd_config
+
+![Screenshot (861)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/31060902-7bdb-42e9-829d-f561cfc484ba)
+
+- From Root user: Enable Password-Based Authentication
+
+command: **vi /etc/ssh/sshd_config** </br>
+**Click -> i** to modify the file and search for **passwordAuthentication - > yes**
+![Screenshot (859)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/343a190a-336f-4451-bf0b-82b510a80ec3)
+
 save and close the file.
-service sshd reload
+command:**service sshd reload**
 
 Add Ansible Server in Jenkins
 
