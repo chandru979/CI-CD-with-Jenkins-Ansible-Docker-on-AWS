@@ -40,11 +40,13 @@ create Security group for all instance and open port of 8080 for jenkins-server,
 
 ![Screenshot (898)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/873bd5d7-7d33-4eb5-a03c-d05921a87c47)
 
+Now that we have created instances for running Git, Jenkins, Ansible, and Docker, we will proceed to install and configure the applications on these instances
+
 <h3>Connect Instances using SSH client in Mobaxterm</h3>
 
 ![Screenshot (899)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/dd393679-07db-4ba5-96cd-3f680e8bbfc1)
 
-GO to **Click -> SSH** and then **Remote host ->** Paste your ssh, **Click-> Advanced SSH settings -> Use private key ->**paste PEM key for openSSH.  
+GO to **Click -> SSH** and then **Remote host ->** Paste your ssh, **Click-> Advanced SSH settings -> Use private key ->** paste PEM key for openSSH.  
 ![Screenshot (919)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/df53d44c-50a3-4fa6-9461-fb12d9f6b5bc)
 
 
@@ -63,7 +65,21 @@ Prerequisites:</br>
 5. configure it in jenkins global tool configuration
 6. Install required Plugins in jenkins
 
-Afer Instllation of JDK, Maven add directories to Jenkins. </br> 
+Open Jekins with **Public IP** address of jenkins-server added with (**:8080**) -> (Example: 172.25.85.01:8080) </br>
+- Unlock Jenkins:</br>
+To get the password, run this command in your terminal: **sudo cat /var/lib/jenkins/secrets/initialAdminPassword**. After entering the password click on continue.
+
+![Screenshot (851)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/90ecda53-88f8-456c-8bf7-682c27145b4b)
+
+![Screenshot (853)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/5fbdf89d-6bff-4f91-87ad-336e0dbc8bc3)
+
+- Create First Admin user:</br>
+![Screenshot (854)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/892f5d81-5686-4390-9e19-85ec4c6a5d60)
+
+After enter username and password **Click -> Sign in**:
+![Screenshot (927)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/1ab1b0c0-f64a-4fef-857e-48057a0af2ac)
+
+Afer Instllating of JDK, Maven add directories to Jenkins. </br> 
 Go to **Manage jenkins -> Tools** (Add JDK and Add Maven Path directory)</br>
 ![Screenshot (908)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/14f13c5c-9da5-4ef8-8f6e-7dc9e2131a26)
 
@@ -71,8 +87,10 @@ Go to **Manage jenkins -> Tools** (Add JDK and Add Maven Path directory)</br>
 
 ![Screenshot (910)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/f5975d63-2708-48dc-a65e-1eadf9b6ae40)
 
-Next install plugins </br>
+Next install plugins, </br>
 Go to **Manage Jenkins -> Plugins -> Select Available Plugins ->** search (Maven Integration, GitHub, Publish over SSH) -> Click on **'Install without restart'**
+
+![Screenshot (912)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/ef05ab86-6b18-4f75-9297-9a5d7b1ccc76)
 
 ![Screenshot (914)](https://github.com/chandru979/CI-CD-with-Jenkins-Ansible-Docker-on-AWS/assets/79323743/fa367e7e-391d-421b-beba-d42bce0e2700)
 
